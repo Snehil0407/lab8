@@ -112,7 +112,7 @@ function App() {
                 <button
                   onClick={() => toggleLike(flight.id)}
                   className={`text-gray-500 transition-transform duration-300 ${
-                    likedFlights[flight.id] ? 'text-red-500 scale-125' : 'scale-100'
+                    likedFlights[flight.id] ? 'text-red-500 scale-150' : 'scale-100'
                   }`}
                 >
                   ❤️
