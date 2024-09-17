@@ -67,71 +67,73 @@ function App() {
 
   return (
     <div
-      className="min-h-screen bg-cover bg-center p-6"
+      className="flex flex-col min-h-screen bg-cover bg-center"
       style={{ backgroundImage: `url(${backgroundImage})` }}
     >
-      {/* Header and Search Bar */}
-      <h1 className="text-3xl font-bold text-center mb-6">Airline Reservation System</h1>
-      <div className="mb-6">
-        <input
-          type="text"
-          placeholder="Search flights..."
-          className="p-2 w-full md:w-1/2 mx-auto block rounded-lg border border-gray-300"
-          value={searchTerm}
-          onChange={handleSearch}
-        />
-      </div>
+      {/* Main Content Wrapper */}
+      <div className="flex-grow p-6">
+        <h1 className="text-3xl font-bold text-center mb-6">Airline Reservation System</h1>
+        <div className="mb-6">
+          <input
+            type="text"
+            placeholder="Search flights..."
+            className="p-2 w-full md:w-1/2 mx-auto block rounded-lg border border-gray-300"
+            value={searchTerm}
+            onChange={handleSearch}
+          />
+        </div>
 
-      {/* Flight Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {filteredFlights.map((flight) => (
-          <div key={flight.id} className="bg-white shadow-lg rounded-lg p-4">
-            <img
-              src={flight.imgSrc}
-              alt={flight.title}
-              className="w-full h-40 object-cover rounded-md mb-4"
-            />
-            <h2 className="text-xl font-semibold mb-2">{flight.title}</h2>
-            <p className="text-gray-600 mb-4">{flight.features}</p>
+        {/* Flight Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {filteredFlights.map((flight) => (
+            <div key={flight.id} className="bg-white shadow-lg rounded-lg p-4">
+              <img
+                src={flight.imgSrc}
+                alt={flight.title}
+                className="w-full h-40 object-cover rounded-md mb-4"
+              />
+              <h2 className="text-xl font-semibold mb-2">{flight.title}</h2>
+              <p className="text-gray-600 mb-4">{flight.features}</p>
 
-            {/* Flight Rating */}
-            <div className="flex items-center mb-4">
-              {[...Array(5)].map((_, i) => (
-                <FaStar
-                  key={i}
-                  className={`cursor-pointer ${
-                    flightRatings[flight.id] > i ? 'text-yellow-500' : 'text-gray-300'
+              {/* Flight Rating */}
+              <div className="flex items-center mb-4">
+                {[...Array(5)].map((_, i) => (
+                  <FaStar
+                    key={i}
+                    className={`cursor-pointer ${
+                      flightRatings[flight.id] > i ? 'text-yellow-500' : 'text-gray-300'
+                    }`}
+                    onClick={() => handleRating(flight.id, i + 1)}
+                  />
+                ))}
+              </div>
+
+              <div className="flex justify-between items-center">
+                <button
+                  onClick={() => toggleLike(flight.id)}
+                  className={`text-gray-500 transition-transform duration-300 ${
+                    likedFlights[flight.id] ? 'text-red-500 scale-125' : 'scale-100'
                   }`}
-                  onClick={() => handleRating(flight.id, i + 1)}
-                />
-              ))}
+                >
+                  ❤️
+                </button>
+
+                {/* More Info Button */}
+                <button
+                  onClick={() => openModal(flight)}
+                  className="text-blue-500 underline"
+                >
+                  More Info
+                </button>
+
+                {/* Book Now Button */}
+                <button className="bg-blue-500 text-white py-1 px-4 rounded-lg">
+                  Book Now
+                </button>
+              </div>
             </div>
-
-            <div className="flex justify-between items-center">
-              <button
-                onClick={() => toggleLike(flight.id)}
-                className={`text-gray-500 transition-transform duration-300 ${
-                  likedFlights[flight.id] ? 'text-red-500 scale-125' : 'scale-100'
-                }`}
-              >
-                ❤️
-              </button>
-
-              {/* More Info Button */}
-              <button
-                onClick={() => openModal(flight)}
-                className="text-blue-500 underline"
-              >
-                More Info
-              </button>
-
-              {/* Book Now Button */}
-              <button className="bg-blue-500 text-white py-1 px-4 rounded-lg">
-                Book Now
-              </button>
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
 
       {/* Flight Info Modal */}
@@ -151,7 +153,7 @@ function App() {
       )}
 
       {/* Footer */}
-      <footer className="mt-12 bg-gray-800 text-white p-4 text-center">
+      <footer className="bg-gray-800 text-white p-4 text-center">
         <p>Contact us: contact@airline.com | Follow us on social media!</p>
         <div className="flex justify-center space-x-4 mt-2">
           <a href="#" className="text-blue-400">
